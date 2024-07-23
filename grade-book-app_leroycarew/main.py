@@ -2,20 +2,23 @@ from student import Student
 from course import Course
 from gradebook import GradeBook
 
-class GradeBook:
-    def load_from_file(self, filename):
-        print(f"Loading from {filename}")
-
 class Student:
     def __init__(self, email, names):
         self.email = email
         self.names = names
+
+class GradeBook:
+    def load_from_file(self, filename):
+        print(f"Loading from {filename}")
+
 def add_student(self, student):
         self.students.append(student)
 
 def main():
     filename = 'grades.txt'
     gradebook = GradeBook()
+    email = "student@example.com"
+    names = "John Doe"
     gradebook.load_from_file(filename)
 
     while True:
