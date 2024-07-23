@@ -8,18 +8,21 @@ class Student:
         self.names = names
 
 class GradeBook:
-    def load_from_file(self, filename):
-        print(f"Loading from {filename}")
+    def __init__(self):
+        self.students = []
 
-def add_student(self, student):
+    def add_student(self, student):
         self.students.append(student)
 
 def main():
-    filename = 'grades.txt'
     gradebook = GradeBook()
     email = "student@example.com"
     names = "John Doe"
-    gradebook.load_from_file(filename)
+    gradebook.add_student(Student(email, names))
+    # Optionally, print to verify
+    for student in gradebook.students:
+        print(f"Added student: {student.names}, {student.email}")
+
 
     while True:
         print("\nGrade Book Application")
