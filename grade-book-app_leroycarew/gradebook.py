@@ -81,4 +81,4 @@ class GradeBook:
 
     def view_all_courses(self):
         for course in self.course_list:
-            print(f"Name: {course.name}, Trimester: {course.trim
+            print(f"Name: {course.name}, Trimester: {course.trim}
