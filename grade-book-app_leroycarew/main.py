@@ -7,6 +7,20 @@ class Student:
         self.email = email
         self.names = names
 
+class Course:
+    def __init__(self, name, trimester, credits):
+        self.name = name
+        self.trimester = trimester
+        self.credits = credits
+
+class GradeBook:
+    def __init__(self):
+        self.students = []
+        self.courses = []
+
+def add_course(self, course):
+        self.courses.append(course)
+
 class GradeBook:
     def __init__(self):
         self.students = []
@@ -22,6 +36,10 @@ def main():
     # Optionally, print to verify
     for student in gradebook.students:
         print(f"Added student: {student.names}, {student.email}")
+    name = "Math 101"
+    trimester = "Fall 2024"
+    credits = 3
+    gradebook.add_course(Course(name, trimester, credits))
 
 
     while True:
