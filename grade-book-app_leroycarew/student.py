@@ -1,3 +1,5 @@
+import json
+
 class Student:
     def __init__(self, email, names):
         self.email = email
@@ -15,3 +17,18 @@ class Student:
 
     def register_for_course(self, course, grade):
         self.courses_registered[course.name] = (grade, course.credits)
+
+    def to_dict(self):
+        return {
+            'email': self.email,
+            'names': self.names,
+            'courses_registered': self.courses_registered,
+            'GPA': self.GPA
+        }
+
+    @classmethod
+    def from_dict(cls, data):
+        student = cls(data['email'], data['names'])
+        student.courses_registered = data['courses_registered']
+        student.GPA = data['GPA']
+        return student

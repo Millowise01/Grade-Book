@@ -4,6 +4,8 @@ from gradebook import GradeBook
 
 def main():
     gradebook = GradeBook()
+    filename = 'gradebook_data.json'
+    gradebook.load_from_file(filename)
 
     while True:
         print("\nGrade Book Application")
@@ -14,7 +16,7 @@ def main():
         print("5. Calculate Ranking")
         print("6. Search by Grade")
         print("7. Generate Transcript")
-        print("8. Exit")
+        print("8. Save and Exit")
         
         choice = input("Choose an action: ")
 
@@ -43,6 +45,7 @@ def main():
             email = input("Enter student email: ")
             gradebook.generate_transcript(email)
         elif choice == '8':
+            gradebook.save_to_file(filename)
             break
         else:
             print("Invalid choice. Please try again.")

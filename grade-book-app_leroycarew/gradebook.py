@@ -1,3 +1,7 @@
+import json
+from student import Student
+from course import Course
+
 class GradeBook:
     def __init__(self):
         self.student_list = []
@@ -45,3 +49,20 @@ class GradeBook:
             print(f"Overall GPA: {student.GPA}")
         else:
             print("Student not found.")
+
+    def save_to_file(self, filename):
+        data = {
+            'students': [student.to_dict() for student in self.student_list],
+            'courses': [course.to_dict() for course in self.course_list]
+        }
+        with open(filename, 'w') as f:
+            json.dump(data, f)
+
+    def load_from_file(self, filename):
+        try:
+            with open(filename, 'r') as f:
+                data = json.load(f)
+                self.student_list = [Student.from_dict(s) for s in data['students']]
+                self.course_list = [Course.from_dict(c) for c in data['courses']]
+        except FileNotFoundError:
+            print(f"No data file found at {filename}. Starting with an empty grade book.")
