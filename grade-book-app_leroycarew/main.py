@@ -6,6 +6,10 @@ class GradeBook:
     def load_from_file(self, filename):
         print(f"Loading from {filename}")
 
+class Student:
+    def __init__(self, email, names):
+        self.email = email
+        self.names = names
 def add_student(self, student):
         self.students.append(student)
 
