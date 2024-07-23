@@ -2,6 +2,10 @@ from student import Student
 from course import Course
 from gradebook import GradeBook
 
+class GradeBook:
+    def load_from_file(self, filename):
+        print(f"Loading from {filename}")
+
 def main():
     filename = 'grades.txt'
     gradebook = GradeBook()
