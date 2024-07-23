@@ -1,112 +1,73 @@
-from student import Student
-from course import Course
 from gradebook import GradeBook
-
-class Student:
-    def __init__(self, email, names):
-        self.email = email
-        self.names = names
-
-class Course:
-    def __init__(self, name, trimester, credits):
-        self.name = name
-        self.trimester = trimester
-        self.credits = credits
-
-class GradeBook:
-    def __init__(self):
-        self.students = []
-        self.courses = []
-
-def add_course(self, course):
-        self.courses.append(course)
-
-class GradeBook:
-    def __init__(self):
-        self.students = []
-
-    def add_student(self, student):
-        self.students.append(student)
+import os
 
 def main():
-    gradebook = GradeBook()
-    email = "student@example.com"
-    names = "John Doe"
-    gradebook.add_student(Student(email, names))
-    # Optionally, print to verify
-    for student in gradebook.students:
-        print(f"Added student: {student.names}, {student.email}")
-    name = "Math 101"
-    trimester = "Fall 2024"
-    credits = 3
-    gradebook.add_course(Course(name, trimester, credits))
+    gb = GradeBook()
 
+    # Load existing data
+    if os.path.exists("students.pkl"):
+        gb.load_students("students.pkl")
+    if os.path.exists("courses.pkl"):
+        gb.load_courses("courses.pkl")
 
     while True:
-        print("\nGrade Book Application")
-        print("1. Add Student")
-        print("2. Add Course")
-        print("3. Register Student for Course")
-        print("4. Calculate GPA")
-        print("5. Calculate Ranking")
-        print("6. Search by Grade")
-        print("7. Generate Transcript")
-        print("8. Delete Student")
-        print("9. Delete Course")
-        print("10. Update Student Information")
-        print("11. Update Course Information")
-        print("12. View All Students")
-        print("13. View All Courses")
-        print("14. Save and Exit")
-
+        print("\nGradeBook Menu")
+        print("1. Add student")
+        print("2. Add course")
+        print("3. Remove student")
+        print("4. Remove course")
+        print("5. Register student for course")
+        print("6. Unenroll student from course")
+        print("7. Calculate ranking")
+        print("8. Search by grade")
+        print("9. Generate transcript")
+        print("10. Save and Exit")
+        
         choice = input("Choose an action: ")
 
         if choice == '1':
             email = input("Enter student email: ")
             names = input("Enter student names: ")
-            gradebook.add_student(Student(email, names))
+            gb.add_student(email, names)
         elif choice == '2':
             name = input("Enter course name: ")
-            trimester = input("Enter trimester: ")
+            trimester = input("Enter course trimester: ")
             credits = int(input("Enter course credits: "))
-            gradebook.add_course(Course(name, trimester, credits))
+            gb.add_course(name, trimester, credits)
         elif choice == '3':
+            email = input("Enter student email to remove: ")
+            gb.remove_student(email)
+        elif choice == '4':
+            name = input("Enter course name to remove: ")
+            gb.remove_course(name)
+        elif choice == '5':
             email = input("Enter student email: ")
             course_name = input("Enter course name: ")
-            gradebook.register_student_for_course(email, course_name)
-        elif choice == '4':
-            email = input("Enter student email: ")
-            gradebook.calculate_GPA(email)
-        elif choice == '5':
-            gradebook.calculate_ranking()
+            grade = float(input("Enter grade: "))
+            gb.register_student_for_course(email, course_name, grade)
         elif choice == '6':
-            grade = float(input("Enter grade to search for: "))
-            gradebook.search_by_grade(grade)
-        elif choice == '7':
             email = input("Enter student email: ")
-            gradebook.generate_transcript(email)
+            course_name = input("Enter course name to unenroll: ")
+            gb.unenroll_student_from_course(email, course_name)
+        elif choice == '7':
+            ranking = gb.calculate_ranking()
+            print("Student Ranking:")
+            for student in ranking:
+                print(student)
         elif choice == '8':
-            email = input("Enter student email to delete: ")
-            gradebook.delete_student(email)
+            course_name = input("Enter course name: ")
+            grade = float(input("Enter grade: "))
+            students = gb.search_by_grade(course_name, grade)
+            print(f"Students with grade {grade} in {course_name}:")
+            for student in students:
+                print(student)
         elif choice == '9':
-            name = input("Enter course name to delete: ")
-            gradebook.delete_course(name)
+            email = input("Enter student email: ")
+            gb.generate_transcript(email)
         elif choice == '10':
-            email = input("Enter student email to update: ")
-            new_names = input("Enter new student names: ")
-            gradebook.update_student_info(email, new_names)
-        elif choice == '11':
-            name = input("Enter course name to update: ")
-            new_name = input("Enter new course name: ")
-            new_trimester = input("Enter new trimester: ")
-            new_credits = int(input("Enter new credits: "))
-            gradebook.update_course_info(name, new_name, new_trimester, new_credits)
-        elif choice == '12':
-            gradebook.view_all_students()
-        elif choice == '13':
-            gradebook.view_all_courses()
-        elif choice == '14':
-            gradebook.save_to_file(filename)
+            gb.save_students("students.pkl")
+            gb.save_courses("courses.pkl")
+            print("GradeBook saved. Exiting...")
             break
         else:
             print("Invalid choice. Please try again.")

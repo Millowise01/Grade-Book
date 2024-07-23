@@ -1,112 +1,76 @@
-import json
+import pickle
 from student import Student
 from course import Course
 
-class Student:
-    def __init__(self, email, names):
-        self.email = email
-        self.names = names
-
-class Course:
-    def __init__(self, name, trimester, credits):
-        self.name = name
-        self.trimester = trimester
-        self.credits = credits
-
 class GradeBook:
     def __init__(self):
-        self.students = []
-        self.courses = []
+        self.student_list = []
+        self.course_list = []
 
-    def add_student(self, student):
-        self.students.append(student)
+    def add_student(self, email, names):
+        student = Student(email, names)
+        self.student_list.append(student)
 
-    def add_course(self, course):
-        self.courses.append(course)
+    def add_course(self, name, trimester, credits):
+        course = Course(name, trimester, credits)
+        self.course_list.append(course)
 
-def main():
-    gradebook = GradeBook()
+    def remove_student(self, email):
+        self.student_list = [s for s in self.student_list if s.email != email]
 
-    # Adding a student
-    email = "student@example.com"
-    names = "John Doe"
-    gradebook.add_student(Student(email, names))
+    def remove_course(self, name):
+        self.course_list = [c for c in self.course_list if c.name != name]
+        for student in self.student_list:
+            student.courses_registered = [course for course in student.courses_registered if course['course'].name != name]
+            student.calculate_gpa()
 
-    # Adding a course
-    name = "Math 101"
-    trimester = "Fall 2024"
-    credits = 3
-    gradebook.add_course(Course(name, trimester, credits))
-
-if __name__ == "__main__":
-    main()
-
-    def register_student_for_course(self, email, course_name):
+    def register_student_for_course(self, email, course_name, grade):
         student = next((s for s in self.student_list if s.email == email), None)
         course = next((c for c in self.course_list if c.name == course_name), None)
         if student and course:
-            grade = float(input(f"Enter grade for {student.names} in {course.name}: "))
             student.register_for_course(course, grade)
         else:
-            print("Student or Course not found.")
+            print("Student or course not found")
 
-    def calculate_GPA(self, email):
+    def unenroll_student_from_course(self, email, course_name):
         student = next((s for s in self.student_list if s.email == email), None)
         if student:
-            student.calculate_GPA()
-            print(f"GPA of {student.names}: {student.GPA}")
-        else:
-            print("Student not found.")
+            student.courses_registered = [course for course in student.courses_registered if course['course'].name != course_name]
+            student.calculate_gpa()
 
     def calculate_ranking(self):
-        self.student_list.sort(key=lambda s: s.GPA, reverse=True)
-        for rank, student in enumerate(self.student_list, start=1):
-            print(f"{rank}. {student.names} - GPA: {student.GPA}")
+        return sorted(self.student_list, key=lambda s: s.gpa, reverse=True)
 
-    def search_by_grade(self, grade):
-        result = [s for s in self.student_list if any(g == grade for g, c in s.courses_registered.values())]
-        for student in result:
-            print(f"{student.names} - GPA: {student.GPA}")
+    def search_by_grade(self, course_name, grade):
+        students = []
+        for student in self.student_list:
+            for course in student.courses_registered:
+                if course['course'].name == course_name and course['grade'] == grade:
+                    students.append(student)
+        return students
 
     def generate_transcript(self, email):
         student = next((s for s in self.student_list if s.email == email), None)
         if student:
-            print(f"Transcript for {student.names}")
-            for course, (grade, credits) in student.courses_registered.items():
-                print(f"Course: {course}, Grade: {grade}, Credits: {credits}")
-            print(f"Overall GPA: {student.GPA}")
+            print(f"Transcript for {student.names} ({student.email}):")
+            for course in student.courses_registered:
+                print(f"{course['course'].name} - {course['grade']}")
+            print(f"GPA: {student.gpa:.2f}")
         else:
-            print("Student not found.")
+            print("Student not found")
 
-    def delete_student(self, email):
-        self.student_list = [s for s in self.student_list if s.email != email]
+    def save_students(self, filename):
+        with open(filename, 'wb') as file:
+            pickle.dump(self.student_list, file)
 
-    def delete_course(self, name):
-        self.course_list = [c for c in self.course_list if c.name != name]
-        for student in self.student_list:
-            if name in student.courses_registered:
-                del student.courses_registered[name]
+    def load_students(self, filename):
+        with open(filename, 'rb') as file:
+            self.student_list = pickle.load(file)
 
-    def update_student_info(self, email, new_names):
-        student = next((s for s in self.student_list if s.email == email), None)
-        if student:
-            student.names = new_names
-        else:
-            print("Student not found.")
+    def save_courses(self, filename):
+        with open(filename, 'wb') as file:
+            pickle.dump(self.course_list, file)
 
-    def update_course_info(self, name, new_name, new_trimester, new_credits):
-        course = next((c for c in self.course_list if c.name == name), None)
-        if course:
-            course.name = new_name
-            course.trimester = new_trimester
-            course.credits = new_credits
-        else:
-            print("Course not found.")
-
-    def view_all_students(self):
-        for student in self.student_list:
-            print(f"Email: {student.email}, Names: {student.names}, GPA: {student.GPA}")
-
-    def view_all_courses(self):
-        for course in self.course_list:
-            print(f"Name: {course.name}, Trimester: {course.trim}")
+    def load_courses(self, filename):
+        with open(filename, 'rb') as file:
+            self.course_list = pickle.load(file)

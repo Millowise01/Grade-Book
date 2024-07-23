@@ -4,13 +4,5 @@ class Course:
         self.trimester = trimester
         self.credits = credits
 
-    def to_dict(self):
-        return {
-            'name': self.name,
-            'trimester': self.trimester,
-            'credits': self.credits
-        }
-
-    @classmethod
-    def from_dict(cls, data):
-        return cls(data['name'], data['trimester'], data['credits'])
+    def __str__(self):
+        return f"{self.name} - {self.credits} credits"
