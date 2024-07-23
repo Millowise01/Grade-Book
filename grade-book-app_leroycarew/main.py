@@ -21,7 +21,9 @@ def main():
         print("7. Calculate ranking")
         print("8. Search by grade")
         print("9. Generate transcript")
-        print("10. Save and Exit")
+        print("10. Display students")
+        print("11. Display courses")
+        print("12. Save and Exit")
         
         choice = input("Choose an action: ")
 
@@ -65,6 +67,10 @@ def main():
             email = input("Enter student email: ")
             gb.generate_transcript(email)
         elif choice == '10':
+            gb.display_students()
+        elif choice == '11':
+            gb.display_courses()
+        elif choice == '12':
             gb.save_students("students.pkl")
             gb.save_courses("courses.pkl")
             print("GradeBook saved. Exiting...")

@@ -59,6 +59,22 @@ class GradeBook:
         else:
             print("Student not found")
 
+    def display_students(self):
+        if not self.student_list:
+            print("No students available.")
+        else:
+            print("Students:")
+            for student in self.student_list:
+                print(student)
+
+    def display_courses(self):
+        if not self.course_list:
+            print("No courses available.")
+        else:
+            print("Courses:")
+            for course in self.course_list:
+                print(course)
+
     def save_students(self, filename):
         with open(filename, 'wb') as file:
             pickle.dump(self.student_list, file)
