@@ -3,8 +3,8 @@ from course import Course
 from gradebook import GradeBook
 
 def main():
+    filename = 'grades.txt'
     gradebook = GradeBook()
-    filename = 'gradebook_data.json'
     gradebook.load_from_file(filename)
 
     while True:
