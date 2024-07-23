@@ -16,8 +16,14 @@ def main():
         print("5. Calculate Ranking")
         print("6. Search by Grade")
         print("7. Generate Transcript")
-        print("8. Save and Exit")
-        
+        print("8. Delete Student")
+        print("9. Delete Course")
+        print("10. Update Student Information")
+        print("11. Update Course Information")
+        print("12. View All Students")
+        print("13. View All Courses")
+        print("14. Save and Exit")
+
         choice = input("Choose an action: ")
 
         if choice == '1':
@@ -45,6 +51,26 @@ def main():
             email = input("Enter student email: ")
             gradebook.generate_transcript(email)
         elif choice == '8':
+            email = input("Enter student email to delete: ")
+            gradebook.delete_student(email)
+        elif choice == '9':
+            name = input("Enter course name to delete: ")
+            gradebook.delete_course(name)
+        elif choice == '10':
+            email = input("Enter student email to update: ")
+            new_names = input("Enter new student names: ")
+            gradebook.update_student_info(email, new_names)
+        elif choice == '11':
+            name = input("Enter course name to update: ")
+            new_name = input("Enter new course name: ")
+            new_trimester = input("Enter new trimester: ")
+            new_credits = int(input("Enter new credits: "))
+            gradebook.update_course_info(name, new_name, new_trimester, new_credits)
+        elif choice == '12':
+            gradebook.view_all_students()
+        elif choice == '13':
+            gradebook.view_all_courses()
+        elif choice == '14':
             gradebook.save_to_file(filename)
             break
         else:

@@ -1,0 +1,1 @@
+{"students": [{"email": "l.carew@alustudent.com", "names": "Leroy Carew", "courses_registered": {"Python Programming Language": [90.0, 4]}, "GPA": 0.0}, {"email": "m.carew@gmail.com", "names": "Millo", "courses_registered": {}, "GPA": 0.0}], "courses": [{"name": "Python Programming Language", "trimester": "May 2024", "credits": 4}]}

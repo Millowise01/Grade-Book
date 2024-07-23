@@ -50,6 +50,39 @@ class GradeBook:
         else:
             print("Student not found.")
 
+    def delete_student(self, email):
+        self.student_list = [s for s in self.student_list if s.email != email]
+
+    def delete_course(self, name):
+        self.course_list = [c for c in self.course_list if c.name != name]
+        for student in self.student_list:
+            if name in student.courses_registered:
+                del student.courses_registered[name]
+
+    def update_student_info(self, email, new_names):
+        student = next((s for s in self.student_list if s.email == email), None)
+        if student:
+            student.names = new_names
+        else:
+            print("Student not found.")
+
+    def update_course_info(self, name, new_name, new_trimester, new_credits):
+        course = next((c for c in self.course_list if c.name == name), None)
+        if course:
+            course.name = new_name
+            course.trimester = new_trimester
+            course.credits = new_credits
+        else:
+            print("Course not found.")
+
+    def view_all_students(self):
+        for student in self.student_list:
+            print(f"Email: {student.email}, Names: {student.names}, GPA: {student.GPA}")
+
+    def view_all_courses(self):
+        for course in self.course_list:
+            print(f"Name: {course.name}, Trimester: {course.trimester}, Credits: {course.credits}")
+
     def save_to_file(self, filename):
         data = {
             'students': [student.to_dict() for student in self.student_list],
