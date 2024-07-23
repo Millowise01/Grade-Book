@@ -2,10 +2,10 @@ import json
 from student import Student
 from course import Course
 
-class GradeBook:
-    def __init__(self):
-        self.student_list = []
-        self.course_list = []
+class Student:
+    def __init__(self, email, names):
+        self.email = email
+        self.names = names
 
 class Course:
     def __init__(self, name, trimester, credits):
@@ -13,11 +13,33 @@ class Course:
         self.trimester = trimester
         self.credits = credits
 
+class GradeBook:
+    def __init__(self):
+        self.students = []
+        self.courses = []
+
     def add_student(self, student):
-        self.student_list.append(student)
+        self.students.append(student)
 
     def add_course(self, course):
-        self.course_list.append(course)
+        self.courses.append(course)
+
+def main():
+    gradebook = GradeBook()
+
+    # Adding a student
+    email = "student@example.com"
+    names = "John Doe"
+    gradebook.add_student(Student(email, names))
+
+    # Adding a course
+    name = "Math 101"
+    trimester = "Fall 2024"
+    credits = 3
+    gradebook.add_course(Course(name, trimester, credits))
+
+if __name__ == "__main__":
+    main()
 
     def register_student_for_course(self, email, course_name):
         student = next((s for s in self.student_list if s.email == email), None)
