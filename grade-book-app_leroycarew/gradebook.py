@@ -7,6 +7,12 @@ class GradeBook:
         self.student_list = []
         self.course_list = []
 
+class Course:
+    def __init__(self, name, trimester, credits):
+        self.name = name
+        self.trimester = trimester
+        self.credits = credits
+
     def add_student(self, student):
         self.student_list.append(student)
 
