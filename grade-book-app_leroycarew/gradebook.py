@@ -6,6 +6,7 @@ class GradeBook:
     def __init__(self):
         self.student_list = []
         self.course_list = []
+        self.load_data()
 
     def add_student(self, email, names):
         student = Student(email, names)
@@ -80,13 +81,28 @@ class GradeBook:
             pickle.dump(self.student_list, file)
 
     def load_students(self, filename):
-        with open(filename, 'rb') as file:
-            self.student_list = pickle.load(file)
+        try:
+            with open(filename, 'rb') as file:
+                self.student_list = pickle.load(file)
+        except (FileNotFoundError, EOFError):
+            self.student_list = []
 
     def save_courses(self, filename):
         with open(filename, 'wb') as file:
             pickle.dump(self.course_list, file)
 
     def load_courses(self, filename):
-        with open(filename, 'rb') as file:
-            self.course_list = pickle.load(file)
+        try:
+            with open(filename, 'rb') as file:
+                self.course_list = pickle.load(file)
+        except (FileNotFoundError, EOFError):
+            self.course_list = []
+
+    def save_data(self):
+        self.save_students('students.pkl')
+        self.save_courses('courses.pkl')
+
+    def load_data(self):
+        self.load_students('students.pkl')
+        self.load_courses('courses.pkl')
+
