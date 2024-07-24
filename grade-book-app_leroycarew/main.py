@@ -1,107 +1,82 @@
-import pickle
-from student import Student
-from course import Course
+from gradebook import GradeBook
+import os
 
-class GradeBook:
-    def __init__(self):
-        self.student_list = []
-        self.course_list = []
-        self.load_data()
+def main():
+    gb = GradeBook()
 
-    def add_student(self, email, names):
-        student = Student(email, names)
-        self.student_list.append(student)
+    # Load existing data
+    if os.path.exists("students.pkl"):
+        gb.load_students("students.pkl")
+    if os.path.exists("courses.pkl"):
+        gb.load_courses("courses.pkl")
 
-    def add_course(self, name, trimester, credits):
-        course = Course(name, trimester, credits)
-        self.course_list.append(course)
+    while True:
+        print("\nGradeBook Menu")
+        print("1. Add student")
+        print("2. Add course")
+        print("3. Remove student")
+        print("4. Remove course")
+        print("5. Register student for course")
+        print("6. Unenroll student from course")
+        print("7. Calculate ranking")
+        print("8. Search by grade")
+        print("9. Generate transcript")
+        print("10. Display students")
+        print("11. Display courses")
+        print("12. Save and Exit")
+        
+        choice = input("Choose an action: ")
 
-    def remove_student(self, email):
-        self.student_list = [s for s in self.student_list if s.email != email]
-
-    def remove_course(self, name):
-        self.course_list = [c for c in self.course_list if c.name != name]
-        for student in self.student_list:
-            student.courses_registered = [course for course in student.courses_registered if course['course'].name != name]
-            student.calculate_gpa()
-
-    def register_student_for_course(self, email, course_name, grade):
-        student = next((s for s in self.student_list if s.email == email), None)
-        course = next((c for c in self.course_list if c.name == course_name), None)
-        if student and course:
-            student.register_for_course(course, grade)
-        else:
-            print("Student or course not found")
-
-    def unenroll_student_from_course(self, email, course_name):
-        student = next((s for s in self.student_list if s.email == email), None)
-        if student:
-            student.courses_registered = [course for course in student.courses_registered if course['course'].name != course_name]
-            student.calculate_gpa()
-
-    def calculate_ranking(self):
-        return sorted(self.student_list, key=lambda s: s.gpa, reverse=True)
-
-    def search_by_grade(self, course_name, grade):
-        students = []
-        for student in self.student_list:
-            for course in student.courses_registered:
-                if course['course'].name == course_name and course['grade'] == grade:
-                    students.append(student)
-        return students
-
-    def generate_transcript(self, email):
-        student = next((s for s in self.student_list if s.email == email), None)
-        if student:
-            print(f"Transcript for {student.names} ({student.email}):")
-            for course in student.courses_registered:
-                print(f"{course['course'].name} - {course['grade']}")
-            print(f"GPA: {student.gpa:.2f}")
-        else:
-            print("Student not found")
-
-    def display_students(self):
-        if not self.student_list:
-            print("No students available.")
-        else:
-            print("Students:")
-            for student in self.student_list:
+        if choice == '1':
+            email = input("Enter student email: ")
+            names = input("Enter student names: ")
+            gb.add_student(email, names)
+        elif choice == '2':
+            name = input("Enter course name: ")
+            trimester = input("Enter course trimester: ")
+            credits = int(input("Enter course credits: "))
+            gb.add_course(name, trimester, credits)
+        elif choice == '3':
+            email = input("Enter student email to remove: ")
+            gb.remove_student(email)
+        elif choice == '4':
+            name = input("Enter course name to remove: ")
+            gb.remove_course(name)
+        elif choice == '5':
+            email = input("Enter student email: ")
+            course_name = input("Enter course name: ")
+            grade = float(input("Enter grade: "))
+            gb.register_student_for_course(email, course_name, grade)
+        elif choice == '6':
+            email = input("Enter student email: ")
+            course_name = input("Enter course name to unenroll: ")
+            gb.unenroll_student_from_course(email, course_name)
+        elif choice == '7':
+            ranking = gb.calculate_ranking()
+            print("Student Ranking:")
+            for student in ranking:
                 print(student)
-
-    def display_courses(self):
-        if not self.course_list:
-            print("No courses available.")
+        elif choice == '8':
+            course_name = input("Enter course name: ")
+            grade = float(input("Enter grade: "))
+            students = gb.search_by_grade(course_name, grade)
+            print(f"Students with grade {grade} in {course_name}:")
+            for student in students:
+                print(student)
+        elif choice == '9':
+            email = input("Enter student email: ")
+            gb.generate_transcript(email)
+        elif choice == '10':
+            gb.display_students()
+        elif choice == '11':
+            gb.display_courses()
+        elif choice == '12':
+            gb.save_students("students.pkl")
+            gb.save_courses("courses.pkl")
+            print("GradeBook saved. Exiting...")
+            break
         else:
-            print("Courses:")
-            for course in self.course_list:
-                print(course)
+            print("Invalid choice. Please try again.")
 
-    def save_students(self, filename):
-        with open(filename, 'wb') as file:
-            pickle.dump(self.student_list, file)
-
-    def load_students(self, filename):
-        try:
-            with open(filename, 'rb') as file:
-                self.student_list = pickle.load(file)
-        except (FileNotFoundError, EOFError):
-            self.student_list = []
-
-    def save_courses(self, filename):
-        with open(filename, 'wb') as file:
-            pickle.dump(self.course_list, file)
-
-    def load_courses(self, filename):
-        try:
-            with open(filename, 'rb') as file:
-                self.course_list = pickle.load(file)
-        except (FileNotFoundError, EOFError):
-            self.course_list = []
-
-    def save_data(self):
-        self.save_students('students.pkl')
-        self.save_courses('courses.pkl')
-
-    def load_data(self):
-        self.load_students('students.pkl')
-        self.load_courses('courses.pkl')
+if __name__ == "__main__":
+    main()
