@@ -74,6 +74,7 @@ def main():
             print("Student Ranking:")
             for student in ranking:
                 print(student)
+                print()
         elif choice == '8':
             course_name = input("Enter course name: ")
             grade = float(input("Enter grade: "))
@@ -81,13 +82,19 @@ def main():
             print(f"Students with grade {grade} in {course_name}:")
             for student in students:
                 print(student)
+                print()
         elif choice == '9':
             email = input("Enter student email: ")
             gb.generate_transcript(email)
+            print()
+            print("transcript generated successfully")
+            print()
         elif choice == '10':
             gb.display_students()
+            print()
         elif choice == '11':
             gb.display_courses()
+            print()
         elif choice == '12':
             gb.save_students("students.pkl")
             gb.save_courses("courses.pkl")
