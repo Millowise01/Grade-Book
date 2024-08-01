@@ -31,11 +31,17 @@ def main():
             email = input("Enter student email: ")
             names = input("Enter student names: ")
             gb.add_student(email, names)
+            print()
+            print("student added successfully")
+            print()
         elif choice == '2':
             name = input("Enter course name: ")
             trimester = input("Enter course trimester: ")
             credits = int(input("Enter course credits: "))
             gb.add_course(name, trimester, credits)
+            print()
+            print("course added successfully")
+            print()
         elif choice == '3':
             email = input("Enter student email to remove: ")
             gb.remove_student(email)
@@ -47,6 +53,9 @@ def main():
             course_name = input("Enter course name: ")
             grade = float(input("Enter grade: "))
             gb.register_student_for_course(email, course_name, grade)
+            print()
+            print("student registered added successfully")
+            print()
         elif choice == '6':
             email = input("Enter student email: ")
             course_name = input("Enter course name to unenroll: ")

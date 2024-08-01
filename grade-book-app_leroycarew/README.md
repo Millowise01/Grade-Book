@@ -7,16 +7,16 @@ The GradeBook Application is a Python program that allows users to create and ma
 ## Features
 
 - Create student records using user input
-- Store student information, including email, names, and courses registered
 - Create course records with name, trimester, and credits
-- Allow students to register for courses
-- Allow students to unenroll from courses
 - Remove students from the system
 - Remove courses from the system
-- Calculate and save the GPA for each student
-- Provide a ranking of students based on their GPA
+- Register student for course
+- Unenroll student for course
+- Calculate and ranking of students
 - Search students by grade obtained in a course
 - Create transcripts for each student showing their GPA
+- Display students
+- Display courses
 - Save and load the student and course data to and from files
 
 ## How to Run
