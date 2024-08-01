@@ -58,6 +58,7 @@ class GradeBook:
             print(f"GPA: {student.gpa:.2f}")
         else:
             print("Student not found")
+            print()
 
     def display_students(self):
         if not self.student_list:
@@ -66,6 +67,7 @@ class GradeBook:
             print("Students:")
             for student in self.student_list:
                 print(student)
+                print()
 
     def display_courses(self):
         if not self.course_list:

@@ -45,21 +45,30 @@ def main():
         elif choice == '3':
             email = input("Enter student email to remove: ")
             gb.remove_student(email)
+            print()
+            print("student removed successfully")
+            print()
         elif choice == '4':
             name = input("Enter course name to remove: ")
             gb.remove_course(name)
+            print()
+            print("course removed successfully")
+            print()
         elif choice == '5':
             email = input("Enter student email: ")
             course_name = input("Enter course name: ")
             grade = float(input("Enter grade: "))
             gb.register_student_for_course(email, course_name, grade)
             print()
-            print("student registered added successfully")
+            print("student registered successfully")
             print()
         elif choice == '6':
             email = input("Enter student email: ")
             course_name = input("Enter course name to unenroll: ")
             gb.unenroll_student_from_course(email, course_name)
+            print()
+            print("student unenroll successfully")
+            print()
         elif choice == '7':
             ranking = gb.calculate_ranking()
             print("Student Ranking:")
